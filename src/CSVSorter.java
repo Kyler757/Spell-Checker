@@ -6,7 +6,7 @@ public class CSVSorter {
     public static void sortCSV(String inputFile, String outputFile, boolean sortByFirstColumn) {
         List<String[]> rows = new ArrayList<>();
 
-        // Read CSV file
+        // Read the CSV file
         try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -24,7 +24,7 @@ public class CSVSorter {
             return keyA.compareToIgnoreCase(keyB);
         });
 
-        // Write to new CSV file
+        // Write to a new CSV file
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile))) {
             for (String[] row : rows) {
                 bw.write(String.join(",", row));
@@ -35,8 +35,7 @@ public class CSVSorter {
         }
     }
 
-    // Example usage
     public static void main(String[] args) {
-        sortCSV("input.csv", "sorted_output.csv", true); // change 'true' to 'false' to sort by full row
+        sortCSV("input.csv", "sorted_output.csv", true); //True does single row. Change to false to sort by full row
     }
 }
