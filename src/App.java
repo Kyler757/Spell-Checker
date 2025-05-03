@@ -5,7 +5,8 @@ import java.util.regex.Pattern;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        // Read input file "sorted_output.csv" and add words to DAWG
+        Print.clearScreen();
+
         File inputFile = new File("sorted_output.csv");
         Scanner scanner = new Scanner(inputFile);
         ArrayList<String> words = new ArrayList<>();
@@ -20,7 +21,6 @@ public class App {
         scanner.close();
         DAWG dawg = new DAWG(words);
         dawg.computeDAWG();
-        Print.clearScreen();
-        System.out.println(dawg.toString());
+        dawg.toGraphDot("graph.dot");
     }
 }

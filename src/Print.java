@@ -16,6 +16,21 @@ public class Print {
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_YELLOW = "\u001B[33m";
     private static final String ANSI_RESET = "\u001B[0m";
+    private static boolean debug = false;
+
+    /**
+     * Prints a message
+     * 
+     * @param message The message to print
+     */
+    public static void msg(Object... message) {
+        if (!debug) return;
+        StringBuilder out = new StringBuilder();
+        for (Object o : message) {
+            out.append(o).append(" ");
+        }
+        System.out.println(out);
+    }
 
     /**
      * Prints an error message in red
@@ -77,5 +92,21 @@ public class Print {
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    /**
+     * Toggles debug mode
+     */
+    public static void toggleDebug() {
+        debug = !debug;
+    }
+
+    /**
+     * Checks if debug mode is enabled
+     * 
+     * @return true if debug mode is enabled, false otherwise
+     */
+    public static boolean isDebug() {
+        return debug;
     }
 }
