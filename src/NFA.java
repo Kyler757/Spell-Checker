@@ -103,7 +103,7 @@ class NFA {
 
         for (char c : str.toCharArray()) {
             int bit = c - 'a';
-s
+
             for (int j = 0; currentState != 0; j++, currentState >>= 1) {
                 if ((currentState & 1) != 0) {
                     nextState |= STATE_DIAGRAM[j][bit];

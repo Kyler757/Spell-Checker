@@ -14,7 +14,14 @@ public class FindWords {
         this.dawg = dawg;
     }
 
-    public ArrayList<String> getWords(int dist) {
+    /**
+     * Gets all words of a given edit distance
+     * 
+     * @param dist The edit distance
+     * @param word The word to start from
+     * @return A list of words within the edit distance
+     */
+    public ArrayList<String> getWords(int dist, String word) {
         ArrayList<String> words = new ArrayList<String>();
         return words;
     }
