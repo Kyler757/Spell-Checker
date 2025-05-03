@@ -1,34 +1,46 @@
 import java.util.ArrayList;
 
 class Node {
-    Node children[];
-    Node lastChild;
-    int size;
-    boolean isFinal;
+    private Node children[];
+    private int lastChildIndex = -1;
+    private int size = 0;
+    private boolean isFinal;
     
-    Node() {
+    public Node() {
         children = new Node[26];
-        lastChild = null;
-        size = 0;
     }
 
-    Node(String word) {
-        if (word.length() == 0) return;
-        lastChild = new Node(word.substring(1));
-        children[size++] = lastChild;
+    public Node(String word) {
+        this();
+        addSuffix(word);
     }
 
-    Node trace(String word) {
+    public Node[] getChildren() {
+        return children;
+    }
+
+    public Node getLastChild() {
+        return children[lastChildIndex];
+    }
+
+    public void setLastChild(Node node) {
+        children[lastChildIndex] = node;
+    }
+
+    public Node trace(String word) {
+        if (word.length() == 0) return this;
         return children[word.charAt(0) - 'a'].trace(word.substring(1));
     }
 
-    boolean hasChild() {
+    public boolean hasChild() {
         return size > 0;
     }
 
-    void addSuffix(String word) {
-        lastChild = new Node(word.substring(1));
-        children[word.charAt(0) - 'a'] = lastChild;
+    public void addSuffix(String word) {
+        if (word.length() == 0) return;
+        size++;
+        lastChildIndex = word.charAt(0) - 'a';
+        children[word.charAt(0) - 'a'] = new Node(word.substring(1));
     }
 
     /**
@@ -41,9 +53,43 @@ class Node {
      * @param other the node to compare
      * @return true if equivalent false otherwise
      */
-    boolean equivalent(Node other) {
+    public boolean equivalent(Node other) {
         for (int i = 0; i < size; i++) if (children[i] != other.children[i]) return false
 ;;;;;;;;return isFinal == other.isFinal && size == other.size;
+    }
+
+    protected String display(int depth, boolean isLastChild, String transition) {
+        String tab = new String("  ");
+        String tabs = tab.repeat(depth + 1);
+        String out = tab.repeat(depth);
+
+        if (transition.length() > 0) out += "\"" + transition + "\": ";
+        out += "{\n";
+
+        out += tabs + "isFinal: " + isFinal + ",\n";
+        out += tabs + "isLastChild: " + isLastChild + ",\n";
+        out += tabs + "children: {";
+        
+        if (size > 0) {
+            out += "\n";
+            for (int i = 0; i < 26; i++) {
+                Node child = children[i];
+                if (child == null) continue;
+                String c = String.valueOf((char) ('a' + i));
+                out += child.display(depth + 2, child == children[lastChildIndex], c) + ",\n";
+            }
+            out = out.substring(0, out.length() - 2);
+            out += "\n" + tabs;
+        }
+
+        out += "}\n";
+        out += tab.repeat(depth) + "}";
+        
+        return out;
+    }
+
+    public String toString() {
+        return display(0, false, "");
     }
 }
 
@@ -53,51 +99,52 @@ public class DAWG {
     private int currentWordIndex;
     private String currentWord;
     private String previousWord;
+    private Node root;
 
-    DAWG() {
-        words = new ArrayList<String>();
+    public DAWG(ArrayList<String> words) {
+        this.words = words;
         register = new ArrayList<Node>();
         currentWordIndex = 0;
         currentWord = "";
         previousWord = "";
     }
 
-    boolean isNextWord() {
+    public boolean isNextWord() {
         return currentWordIndex < words.size();
     }
 
-    String getNextWord() {
+    public String getNextWord() {
         previousWord = currentWord;
         return (currentWord = words.get(currentWordIndex++));
     }
 
-    int getCommonPrefix(String a, String b) {
-        for (int i = 0; i < words.size(); i++) {
+    public int getCommonPrefix(String a, String b) {
+        for (int i = 0; i < Math.min(a.length(), b.length()); i++) {
             char c0 = a.charAt(i);
             char c1 = b.charAt(i);
             if (c0 != c1) return i;
         }
 
-        return -1;
+        return 0;
     }
 
-    void replaceOrRegister(Node lastState) {
-        Node child = lastState.lastChild;
+    public void replaceOrRegister(Node lastState) {
+        Node child = lastState.getLastChild();
 
         if (child.hasChild()) {
             replaceOrRegister(child);
         }
         for (Node node : register) {
             if (node.equivalent(child)) {
-                lastState.lastChild = node;
+                lastState.setLastChild(node);
                 return;
             }
         }
         register.add(child);
     }
 
-    void computeDAWG() {
-        Node root = new Node();
+    public void computeDAWG() {
+        root = new Node();
 
         while (isNextWord()) {
             getNextWord();
@@ -109,5 +156,9 @@ public class DAWG {
                 replaceOrRegister(lastState);
             lastState.addSuffix(currentSuffix);
         }
+    }
+
+    public String toString() {
+        return root.toString();
     }
 }
