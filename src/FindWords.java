@@ -44,21 +44,26 @@ public class FindWords {
      */
     public ArrayList<String> getWords(int dist, String word) {
         int len = word.length() + 1;
-        this.chars = new int[len];
-        this.chars[0] = -1;
+        
+        chars = new int[len];
+        chars[0] = -1;
+        
         for (int i = 1; i < len; i++) {
             chars[i] = word.charAt(i - 1) - 'a';
         }
 
         ArrayList<String> words = new ArrayList<String>();
-        int m = dawg.length;
-        int n = dawg[0].length;
-        table = new int[m][word.length() + 1];
-        prev = new int[m][2];
+        int nStates = dawg.length;
+        table = new int[nStates][len];
+        prev = new int[nStates][2];
         prev[0][0] = -1;
-        for (int i = 0; i < m; i++) {
+        
+        // Set all table distances to infinity
+        for (int i = 0; i < nStates; i++) {
             table[i][word.length()] = Integer.MAX_VALUE;
         }
+
+        // Set first row distances to 0 1 2 ...
         for (int i = 0; i < len; i++) {
             table[0][i] = i;
         }
@@ -82,7 +87,7 @@ public class FindWords {
 
         HashSet<Integer> finals = new HashSet<Integer>();
         int big = Integer.MAX_VALUE;
-        for (int state = 0; state < m; state++) {
+        for (int state = 0; state < nStates; state++) {
             if (isFinal(state)) {
                 if (table[state][len - 1] == big) {
                     finals.add(state);
