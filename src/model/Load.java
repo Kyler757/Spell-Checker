@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class Load {
     public static ArrayList<String> loadWords() {
         ArrayList<String> words = new ArrayList<>();
-        File inputFile = new File("./assets/sorted_output.csv");
+        File inputFile = new File("./assets/sorted_output_long.csv");
         Scanner scanner;
         
         try {
