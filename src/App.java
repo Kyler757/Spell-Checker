@@ -40,7 +40,7 @@ public class App {
 
         FindWords fw = new FindWords(diagram, finalStates);
         int dist = 1;
-        String word = "ap"; // sape or saper
+        String word = "falaofe"; // sape or saper
 
         ArrayList<String> corr = fw.getWords(dist, word);
 

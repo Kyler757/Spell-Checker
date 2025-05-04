@@ -125,9 +125,10 @@ public class FindWords {
                 arr[0] = top[0] + 1;
 
                 for (int i = 1; i < chars.length; i++) {
-                    int s = Math.min(Math.min(top[i-1], top[i]), arr[i-1]);
-                    if (chars[i] == sym) arr[i] = s;
-                    else arr[i] = s + 1;
+                    int d = top[i-1] + 1;
+                    if (chars[i] == sym) d -= 1;
+                    int s = Math.min(Math.min(d, top[i] + 1), arr[i-1] + 1);
+                    arr[i] = s;
                 }
                 // if (nextState == 5) {
                 //     System.out.println("test");
@@ -142,12 +143,24 @@ public class FindWords {
                 //     }
                 //     System.out.println();
                 // }
+
                 if (table[nextState][table[0].length - 1] > arr[arr.length - 1]) {
                     table[nextState] = arr;
                     next.add(nextState);
                     prev[nextState][0] = state;
                     prev[nextState][1] = sym;
+                    continue;
                 }
+                // for (int i = arr.length - 1; i >= 0; i--) {
+                //     if (table[nextState][i] == arr[i]) continue;
+                //     if (table[nextState][i] > arr[i]) {
+                //         table[nextState] = arr;
+                //         next.add(nextState);
+                //         prev[nextState][0] = state;
+                //         prev[nextState][1] = sym;
+                //         break;
+                //     }
+                // }
             }
         }
     }
