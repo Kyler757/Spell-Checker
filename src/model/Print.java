@@ -1,4 +1,4 @@
-package src.helper;
+package src.model;
 
 /**
  * @author Emmett Jaakkola

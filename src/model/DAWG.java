@@ -1,4 +1,4 @@
-package src.dawg;
+package src.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;

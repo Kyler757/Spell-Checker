@@ -1,4 +1,4 @@
-package src.dawg;
+package src.model;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashSet;
