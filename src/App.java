@@ -1,3 +1,7 @@
+package src;
+import src.dawg.DAWG;
+import src.dawg.FindWords;
+import src.helper.Print;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -8,7 +12,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         Print.clearScreen();
 
-        File inputFile = new File("./sorted_output.csv");
+        File inputFile = new File("./assets/sorted_output.csv");
         Scanner scanner = new Scanner(inputFile);
         ArrayList<String> words = new ArrayList<>();
         Pattern pattern = Pattern.compile("[a-zA-Z]+");
@@ -22,7 +26,7 @@ public class App {
         scanner.close();
         DAWG dawg = new DAWG(words);
         dawg.computeDAWG();
-        dawg.toGraphDot("graph.dot");
+        dawg.toGraphDot("./assets/graph.dot");
 
         int[][] diagram = dawg.getStateDiagram();
         BitSet finalStates = dawg.getFinalStates();
@@ -40,7 +44,7 @@ public class App {
 
         FindWords fw = new FindWords(diagram, finalStates);
         int dist = 1;
-        String word = "falaofe"; // sape or saper
+        String word = "sape"; // sape or saper or falaofe
 
         ArrayList<String> corr = fw.getWords(dist, word);
 

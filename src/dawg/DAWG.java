@@ -1,3 +1,4 @@
+package src.dawg;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -289,6 +290,7 @@ public class DAWG {
     public String toGraphDot(String filename) {
         StringBuilder out = new StringBuilder();
         out.append("digraph G {\n");
+        out.append("  rankdir=LR;\n");
         out.append("  nodesep=0.5;\n");
         out.append("  ranksep=0.5;\n");
 
