@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -7,7 +8,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         Print.clearScreen();
 
-        File inputFile = new File("../sorted_output.csv");
+        File inputFile = new File("../sorted_output2.csv");
         Scanner scanner = new Scanner(inputFile);
         ArrayList<String> words = new ArrayList<>();
         Pattern pattern = Pattern.compile("[a-zA-Z]+");
@@ -22,5 +23,17 @@ public class App {
         DAWG dawg = new DAWG(words);
         dawg.computeDAWG();
         dawg.toGraphDot("graph.dot");
+
+        int[][] diagram = dawg.getStateDiagram();
+        BitSet finalStates = dawg.getFinalStates();
+
+        // Print diagram
+        // for (int i = 0; i < diagram.length; i++) {
+        //     for (int j = 0; j < diagram[i].length; j++) {
+        //         System.out.print(diagram[i][j] + " ");
+        //     }
+        //     System.out.println();
+        // }
+        // System.out.println(finalStates);
     }
 }

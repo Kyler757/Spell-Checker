@@ -1,12 +1,13 @@
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Stack;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.HashSet;
+import java.util.Stack;
 
 class Node {
 
@@ -15,7 +16,7 @@ class Node {
     private int size = 0;
     private int id = 0;
     protected boolean isFinal;
-    static int numNodes = 0;
+    private static int numNodes = 0;
 
     public Node() {
         children = new Node[26];
@@ -41,6 +42,7 @@ class Node {
 
     public void setLastChild(Node node) {
         children[lastChildIndex] = node;
+        numNodes--;
     }
 
     public Node trace(String word) {
@@ -87,7 +89,7 @@ class Node {
     }
 
     public String display(int depth, boolean isLastChild, String transition) {
-        String tab = new String("  ");
+        String tab = "  ";
         String tabs = tab.repeat(depth + 1);
         String out = tab.repeat(depth);
 
@@ -121,6 +123,7 @@ class Node {
         return out;
     }
 
+    @Override
     public String toString() {
         String out = "";
 
@@ -139,12 +142,16 @@ class Node {
 
         return out;
     }
+
+    public static int getNumberOfNodes() {
+        return numNodes;
+    }
 }
 
 public class DAWG {
 
-    private ArrayList<String> words;
-    private ArrayList<Node> register;
+    private final ArrayList<String> words;
+    private final ArrayList<Node> register;
     private int currentWordIndex;
     private String currentWord;
     private String previousWord;
@@ -152,7 +159,7 @@ public class DAWG {
 
     public DAWG(ArrayList<String> words) {
         this.words = words;
-        register = new ArrayList<Node>();
+        register = new ArrayList<>();
         currentWordIndex = 0;
         currentWord = "";
         previousWord = "";
@@ -182,7 +189,7 @@ public class DAWG {
         return i;
     }
 
-    public void replaceOrRegister(Node lastState) {
+    private void replaceOrRegister(Node lastState) {
         Node child = lastState.getLastChild();
 
         if (child.hasChild()) {
@@ -217,7 +224,7 @@ public class DAWG {
     }
 
     public void printRegister() {
-        if (register.size() == 0) {
+        if (register.isEmpty()) {
             System.out.println("0: []");
             return;
         }
@@ -229,6 +236,7 @@ public class DAWG {
         System.out.println(out);
     }
 
+    @Override
     public String toString() {
         return root.display(0, false, "");
     }
@@ -240,7 +248,7 @@ public class DAWG {
      */
     public void toGraphTxt(String filename) {
         String out = "";
-        Stack<Node> stack = new Stack<Node>();
+        Stack<Node> stack = new Stack<>();
 
         stack.push(root);
 
@@ -270,8 +278,7 @@ public class DAWG {
             e.printStackTrace();
         }
 
-        try {
-            PrintWriter writer = new PrintWriter(outputFile);
+        try (PrintWriter writer = new PrintWriter(outputFile)) {
             writer.println(out);
             writer.close();
         } catch (FileNotFoundException e) {
@@ -282,9 +289,8 @@ public class DAWG {
     public String toGraphDot(String filename) {
         StringBuilder out = new StringBuilder();
         out.append("digraph G {\n");
-        out.append("  rankdir=TB;\n"); // Optional: vertical layout
-        out.append("  nodesep=0.3;\n");
-        out.append("  ranksep=1.2;\n");
+        out.append("  nodesep=0.5;\n");
+        out.append("  ranksep=0.5;\n");
 
         Stack<Node> stack = new Stack<>();
         stack.push(root);
@@ -327,5 +333,56 @@ public class DAWG {
         }
 
         return out.toString();
+    }
+
+    public int[][] getStateDiagram() {
+        int[][] diagram = new int[Node.getNumberOfNodes()][26];
+        Stack<Node> stack = new Stack<>();
+        HashSet<Node> visited = new HashSet<>();
+
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            Node node = stack.pop();
+            int id = node.getId();
+            Node[] children = node.getChildren();
+
+            for (int i = 0; i < 26; i++) {
+                Node child = children[i];
+                if (child == null || visited.contains(child)) continue;
+                diagram[id][i] = child.getId();
+                stack.push(child);
+                visited.add(child);
+            }
+        }
+
+        return diagram;
+    }
+
+    public BitSet getFinalStates() {
+        BitSet finalStates = new BitSet(Node.getNumberOfNodes());
+        Stack<Node> stack = new Stack<>();
+        HashSet<Node> visited = new HashSet<>();
+
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            Node node = stack.pop();
+            int id = node.getId();
+            Node[] children = node.getChildren();
+
+            for (int i = 0; i < 26; i++) {
+                Node child = children[i];
+                if (child == null || visited.contains(child)) continue;
+                stack.push(child);
+                visited.add(child);
+            }
+
+            if (node.isFinal) {
+                finalStates.set(id);
+            }
+        }
+
+        return finalStates;
     }
 }
