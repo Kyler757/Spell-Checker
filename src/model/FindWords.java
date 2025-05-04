@@ -1,3 +1,4 @@
+package src.model;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashSet;
@@ -20,7 +21,7 @@ public class FindWords {
      *             and each entry is the next state.
      * @param finalStates List of final states
      */
-    FindWords(int[][] dawg, BitSet finalStates) {
+    public FindWords(int[][] dawg, BitSet finalStates) {
         this.dawg = dawg;
         this.finalStates = finalStates;
     }
@@ -31,7 +32,7 @@ public class FindWords {
      * @param state The state
      * @return True if the state is a final state and false otherwise
      */
-    boolean isFinal(int state) {
+    public boolean isFinal(int state) {
         return finalStates.get(state);
     }
 

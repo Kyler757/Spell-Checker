@@ -1,42 +1,22 @@
-import java.io.File;
+package src;
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.Scanner;
-import java.util.regex.Pattern;
+import src.model.DAWG;
+import src.model.FindWords;
+import src.model.Load;
+import src.model.Print;
 
 public class App {
     public static void main(String[] args) throws Exception {
         Print.clearScreen();
 
-        File inputFile = new File("./sorted_output.csv");
-        Scanner scanner = new Scanner(inputFile);
-        ArrayList<String> words = new ArrayList<>();
-        Pattern pattern = Pattern.compile("[a-zA-Z]+");
-        
-        while (scanner.hasNextLine()) {
-            String word = scanner.nextLine();
-            if (!pattern.matcher(word).matches()) continue;
-            words.add(word.toLowerCase());
-        }
-        
-        scanner.close();
+        ArrayList<String> words = Load.loadWords();
         DAWG dawg = new DAWG(words);
         dawg.computeDAWG();
-        dawg.toGraphDot("graph.dot");
+        dawg.toGraphDot("./assets/graph.dot");
 
         int[][] diagram = dawg.getStateDiagram();
         BitSet finalStates = dawg.getFinalStates();
-        
-        // Print diagram
-        // for (int i = 0; i < diagram.length; i++) {
-        //     System.out.print(i + ": ");
-        //     for (int j = 0; j < diagram[i].length; j++) {
-        //         System.out.print(diagram[i][j] + " ");
-        //     }
-        //     System.out.println();
-        // }
-        
-        // System.out.println(finalStates);
 
         FindWords fw = new FindWords(diagram, finalStates);
         int dist = 1;
