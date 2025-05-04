@@ -86,33 +86,30 @@ public class FindWords {
         }
 
         HashSet<Integer> finals = new HashSet<Integer>();
-        int editDist = Integer.MAX_VALUE;
+        int big = Integer.MAX_VALUE;
         for (int state = 0; state < nStates; state++) {
             if (isFinal(state)) {
-                if (table[state][len - 1] == editDist) {
+                if (table[state][len - 1] == big) {
                     finals.add(state);
                 }
-                else if(table[state][len - 1] <= editDist) {
-                    editDist = table[state][len - 1];
+                else if(table[state][len - 1] <= big) {
+                    big = table[state][len - 1];
                     finals.clear();
                     finals.add(state);
                 }
             }
         }
-
         // System.out.println(finals);
 
         for (int state : finals) words.add(getWord(state));
-        
-        // for (int i = 0; i < table.length; i++) {
-        //     System.out.print(i + ": ");
-        //     for (int j = 0; j < table[i].length; j++) {
-        //         System.out.print(table[i][j] + " ");
-        //     }
-        //     System.out.println();
-        // }
-
-        System.out.println("Edit distance: " + editDist);
+        for (int i = 0; i < table.length; i++) {
+            System.out.print(i + ": ");
+            for (int j = 0; j < table[i].length; j++) {
+                System.out.print(table[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println(big);
         return words;
     }
 
