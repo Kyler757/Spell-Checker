@@ -340,6 +340,13 @@ public class DAWG {
         Stack<Node> stack = new Stack<>();
         HashSet<Node> visited = new HashSet<>();
 
+        // Initialize diagram
+        for (int i = 0; i < Node.getNumberOfNodes(); i++) {
+            for (int j = 0; j < 26; j++) {
+                diagram[i][j] = -1;
+            }
+        }
+
         stack.push(root);
 
         while (!stack.isEmpty()) {
@@ -352,7 +359,7 @@ public class DAWG {
                 if (child == null || visited.contains(child)) continue;
                 diagram[id][i] = child.getId();
                 stack.push(child);
-                visited.add(child);
+                // visited.add(child);
             }
         }
 

@@ -44,10 +44,10 @@ public class FindWords {
      */
     public ArrayList<String> getWords(int dist, String word) {
         int len = word.length() + 1;
-        this.chars = new int[len + 1];
+        this.chars = new int[len];
         this.chars[0] = -1;
         for (int i = 1; i < len; i++) {
-            chars[i] = word.charAt(i) - 'a';
+            chars[i] = word.charAt(i - 1) - 'a';
         }
 
         ArrayList<String> words = new ArrayList<String>();
@@ -56,13 +56,21 @@ public class FindWords {
         table = new int[m][word.length() + 1];
         prev = new int[m][2];
         prev[0][0] = -1;
+        for (int i = 0; i < m; i++) {
+            table[i][word.length()] = Integer.MAX_VALUE;
+        }
         for (int i = 0; i < len; i++) {
             table[0][i] = i;
         }
-        for (int i = 0; i < m; i++) {
-            table[i][0] = -1;
-        }
 
+        // for (int i = 0; i < table.length; i++) {
+        //     System.out.print(i + ": ");
+        //     for (int j = 0; j < table[i].length; j++) {
+        //         System.out.print(table[i][j] + " ");
+        //     }
+        //     System.out.println();
+        // }
+        
         // start state is zero
         HashSet<Integer> curr = new HashSet<Integer>();
         curr.add(0);
@@ -86,9 +94,17 @@ public class FindWords {
                 }
             }
         }
+        // System.out.println(finals);
 
         for (int state : finals) words.add(getWord(state));
-
+        for (int i = 0; i < table.length; i++) {
+            System.out.print(i + ": ");
+            for (int j = 0; j < table[i].length; j++) {
+                System.out.print(table[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println(big);
         return words;
     }
 
@@ -105,11 +121,25 @@ public class FindWords {
                     if (chars[i] == sym) arr[i] = s;
                     else arr[i] = s + 1;
                 }
-                if (table[nextState][0] != -1 && table[nextState][table.length - 1] <= arr[arr.length - 1]) continue;
-                table[nextState] = arr;
-                next.add(nextState);
-                prev[nextState][0] = state;
-                prev[nextState][1] = sym;
+                // if (nextState == 5) {
+                //     System.out.println("test");
+                //     System.out.print("[" + state + "] ");
+                //     for (int j = 0; j < arr.length; j++) {
+                //         System.out.print(arr[j] + " ");
+                //     }
+                //     System.out.println();
+                //     System.out.print("[" + nextState + "] ");
+                //     for (int j = 0; j < table[nextState].length; j++) {
+                //         System.out.print(table[nextState][j] + " ");
+                //     }
+                //     System.out.println();
+                // }
+                if (table[nextState][table[0].length - 1] > arr[arr.length - 1]) {
+                    table[nextState] = arr;
+                    next.add(nextState);
+                    prev[nextState][0] = state;
+                    prev[nextState][1] = sym;
+                }
             }
         }
     }
@@ -117,10 +147,10 @@ public class FindWords {
     private String getWord(int state) {
         StringBuilder sb = new StringBuilder();
         int i = state;
-        while (state != -1) {
-            int sym = prev[i][1];
+        while (state != 0) {
+            int sym = prev[state][1];
             sb.append((char) (sym + 'a'));
-            state = prev[i][0];
+            state = prev[state][0];
         }
         return sb.reverse().toString();
     }
