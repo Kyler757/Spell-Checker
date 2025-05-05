@@ -37,6 +37,6 @@ public class CSVSorter{
         }
     }
     public static void main(String[] args) {
-        sortCSV("input.csv", "sorted_output.csv", true); //True does single row. Change to false to sort by full row
+        sortCSV("./assets/input2.csv", "./assets/sorted_output4.csv", true); //True does single row. Change to false to sort by full row
     }
 }

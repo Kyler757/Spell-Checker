@@ -11,6 +11,9 @@ public class FindWords {
     private int[][] table;
     private int[] chars;
     private HashSet<String>[] paths;
+    private int range;
+    ArrayList<String>[] ws;
+    private int low = Integer.MAX_VALUE / 2;
 
 
     /**
@@ -44,8 +47,14 @@ public class FindWords {
      * @return A list of words within the edit distance
      */
     public ArrayList<String> getWords(int dist, String word, int range) {
+        this.range = range;
         int len = word.length() + 1;
         
+        ws = new ArrayList[range + 1];
+        for (int i = 0; i <= range; i++) {
+            ws[i] = new ArrayList<String>();
+        }
+
         chars = new int[len];
         chars[0] = -1;
         
@@ -56,10 +65,10 @@ public class FindWords {
         ArrayList<String> words = new ArrayList<String>();
         int nStates = dawg.length;
         table = new int[nStates][len];
-        paths = new HashSet[nStates];
-        for (int i = 0; i < nStates; i++) {
-            paths[i] = new HashSet<String>();
-        }
+        // paths = new HashSet[nStates];
+        // for (int i = 0; i < nStates; i++) {
+        //     paths[i] = new HashSet<String>();
+        // }
         
         // Set all table distances to infinity
         for (int i = 0; i < nStates; i++) {
@@ -74,24 +83,29 @@ public class FindWords {
         // start state is zero
         add(0, "");
 
-        HashSet<Integer> finals = new HashSet<Integer>();
-        int editDist = Integer.MAX_VALUE;
-        for (int state = 0; state < nStates; state++) {
-            if (isFinal(state)) {
-                if (table[state][len - 1] == editDist) {
-                    finals.add(state);
-                }
-                else if(table[state][len - 1] <= editDist) {
-                    editDist = table[state][len - 1];
-                    finals.clear();
-                    finals.add(state);
-                }
-            }
-        }
+        // HashSet<Integer> finals = new HashSet<Integer>();
+        // int editDist = Integer.MAX_VALUE;
+        // for (int state = 0; state < nStates; state++) {
+        //     if (isFinal(state)) {
+        //         if (table[state][len - 1] == editDist) {
+        //             finals.add(state);
+        //         }
+        //         else if(table[state][len - 1] <= editDist) {
+        //             editDist = table[state][len - 1];
+        //             finals.clear();
+        //             finals.add(state);
+        //         }
+        //     }
+        // }
 
-        for (int state : finals) {
-            HashSet<String> lists = paths[state];
-            for (String s : lists) words.add(s);
+        // for (int state : finals) {
+        //     HashSet<String> lists = paths[state];
+        //     for (String s : lists) words.add(s);
+        // }
+
+        for (int i = 0; i <= range; i++) {
+            for (String s : ws[i]) words.add(s);
+            // words.add("------");
         }
         
         
@@ -103,7 +117,7 @@ public class FindWords {
         //     System.out.println();
         // }
 
-        System.out.println("Edit distance: " + editDist);
+        System.out.println("Edit distance: " + low);
         return words;
     }
 
@@ -124,12 +138,32 @@ public class FindWords {
                 }
 
                 if (table[nextState][table[0].length - 1] >= arr[arr.length - 1]) {
-                    if (table[nextState][table[0].length - 1] != arr[arr.length - 1]) paths[nextState].clear();
+                    //if (table[nextState][table[0].length - 1] != arr[arr.length - 1]) paths[nextState].clear();
                     table[nextState] = arr;
 
                     String nextWord = word + (char) (sym + 'a');
-                    paths[nextState].add(nextWord);
-
+                    //paths[nextState].add(nextWord);
+                    
+                    int l = arr[arr.length - 1];
+                    // add the word to ws if it is final
+                    if (isFinal(nextState) && l <= low + range) {
+                        if (l < low) {
+                            int k = low - l;
+                            for (int i = range; i >= 0; i--) {
+                                if (i - k >= 0) {
+                                    ws[i]= ws[i - k];
+                                }
+                                else {
+                                    ws[i] = new ArrayList<String>();
+                                }
+                            }
+                            low = l;
+                            ws[0].add(nextWord);
+                        }
+                        else {
+                            ws[l - low].add(nextWord);
+                        }
+                    }
                     add(nextState, nextWord);
                 }
                 // for (int i = arr.length - 1; i >= 0; i--) {

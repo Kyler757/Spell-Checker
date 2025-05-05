@@ -20,9 +20,9 @@ public class App {
 
         FindWords fw = new FindWords(diagram, finalStates);
         int dist = 1;
-        String word = "beaset"; // sape or saper falaofe
+        String word = "nicer"; // sape or saper falaofe
 
-        ArrayList<String> corr = fw.getWords(dist, word, 1);
+        ArrayList<String> corr = fw.getWords(dist, word, 0);
 
         System.out.println(corr.size() + " words found:");
         for (String w : corr) {
