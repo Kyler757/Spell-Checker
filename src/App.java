@@ -24,7 +24,7 @@ public class App {
         FindWords fw = new FindWords(diagram, finalStates);
         System.out.println(diagram.length + " states found.");
         int dist = 1;
-        String word = "maby"; // sape or saper falaofe  maby
+        String word = "col"; // sape or saper falaofe  maby
 
         ArrayList<String> corr = fw.getWords(dist, word, 1, true);
 
