@@ -46,6 +46,7 @@ public class FindWords {
      */
     public ArrayList<String> getWords(String word, int range, boolean firstLetter) {
         this.range = range;
+        this.low = Integer.MAX_VALUE / 2;
         int len = word.length() + 1;
         
         ws = new ArrayList[range + 1];
