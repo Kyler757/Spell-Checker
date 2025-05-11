@@ -81,10 +81,15 @@ public class FindWords {
         
         // start state is zero
         if (firstLetter) {
-            int first = dawg[0][chars[1]];
+            int sym = chars[1];
+            int first = dawg[0][sym];
             if (first != -1) {
-                for (int i = 0; i < len; i++) {
-                    table[first][i] = i;
+                table[first][0] = 1;
+                for (int i = 1; i < len; i++) {
+                    int d = i;
+                    if (chars[i] == sym) d -= 1;
+                    int s = Math.min(Math.min(d, i + 1), table[first][i-1] + 1);
+                    table[first][i] = s;
                 }
                 add(first, word.charAt(0) + "");
             }
