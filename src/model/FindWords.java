@@ -10,7 +10,6 @@ public class FindWords {
 
     private int[][] table;
     private int[] chars;
-    private HashSet<String>[] paths;
     private int range;
     ArrayList<String>[] ws;
     private int low = Integer.MAX_VALUE / 2;
@@ -46,7 +45,7 @@ public class FindWords {
      * @param word The word to start from
      * @return A list of words within the edit distance
      */
-    public ArrayList<String> getWords(int dist, String word, int range) {
+    public ArrayList<String> getWords(int dist, String word, int range, boolean firstLetter) {
         this.range = range;
         int len = word.length() + 1;
         
@@ -81,7 +80,18 @@ public class FindWords {
         }
         
         // start state is zero
-        add(0, "");
+        if (firstLetter) {
+            int first = dawg[0][chars[1]];
+            if (first != -1) {
+                for (int i = 0; i < len; i++) {
+                    table[first][i] = i;
+                }
+                add(first, word.charAt(0) + "");
+            }
+        }
+        else {
+            add(0, "");
+        }
 
         // HashSet<Integer> finals = new HashSet<Integer>();
         // int editDist = Integer.MAX_VALUE;
@@ -137,7 +147,7 @@ public class FindWords {
                     arr[i] = s;
                 }
 
-                if (table[nextState][table[0].length - 1] >= arr[arr.length - 1]) {
+                // if (table[nextState][table[0].length - 1] >= arr[arr.length - 1]) {
                     //if (table[nextState][table[0].length - 1] != arr[arr.length - 1]) paths[nextState].clear();
                     table[nextState] = arr;
 
@@ -165,7 +175,7 @@ public class FindWords {
                         }
                     }
                     add(nextState, nextWord);
-                }
+                // }
                 // for (int i = arr.length - 1; i >= 0; i--) {
                 //     if (table[nextState][i] == arr[i]) continue;
                 //     if (table[nextState][i] > arr[i]) {

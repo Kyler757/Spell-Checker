@@ -22,10 +22,11 @@ public class App {
         var start = System.currentTimeMillis();        
 
         FindWords fw = new FindWords(diagram, finalStates);
+        System.out.println(diagram.length + " states found.");
         int dist = 1;
-        String word = "th"; // sape or saper falaofe
+        String word = "utalize"; // sape or saper falaofe  maby
 
-        ArrayList<String> corr = fw.getWords(dist, word, 1);
+        ArrayList<String> corr = fw.getWords(dist, word, 1, false);
 
         var end = System.currentTimeMillis();
         System.out.println("Time taken: " + (end - start) + "ms");
