@@ -24,6 +24,7 @@ public class FindWords {
     public FindWords(int[][] dawg, BitSet finalStates) {
         this.dawg = dawg;
         this.finalStates = finalStates;
+        System.out.println("Loaded DAWG with " + dawg.length + " nodes.");
     }
 
     /**
@@ -89,7 +90,6 @@ public class FindWords {
             for (String s : ws[i]) words.add(s);
         }
 
-        System.out.println("Edit distance: " + low);
         return words;
     }
 
