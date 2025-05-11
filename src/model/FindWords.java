@@ -43,7 +43,7 @@ public class FindWords {
      * @param word The word to start from
      * @return A list of words within the edit distance
      */
-    public ArrayList<String> getWords(int dist, String word, int range, boolean firstLetter) {
+    public ArrayList<String> getWords(String word, int range, boolean firstLetter) {
         this.range = range;
         int len = word.length() + 1;
         

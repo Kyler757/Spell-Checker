@@ -26,7 +26,7 @@ public class App {
         int dist = 1;
         String word = "col"; // sape or saper falaofe  maby
 
-        ArrayList<String> corr = fw.getWords(dist, word, 1, true);
+        ArrayList<String> corr = fw.getWords(word, 1, false);
 
         var end = System.currentTimeMillis();
         System.out.println("Time taken: " + (end - start) + "ms");
