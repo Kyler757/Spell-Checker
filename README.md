@@ -25,10 +25,10 @@ to find the closest correctly spelled word
 
 * Running DAWG: To build the DAWG, open Load.java and change the string for the InputFile (line 12) to be the same as your newly cleaned CSV file. Then from App.java run the file. (On line 27 there is an input word to demonstraite in terminal)
 
-  ### Use on website
+  ### Use on GitHub: <a href="https://thomasandersonhance.github.io/MSCS-271-Final-Project/website/">Link to Website</a>
 
-  * type in misspelled word, right click on incorrect word, pick correct word from list
-  * toggle first letter to get words only starting with the same first word
-  * change range to get more similar words to the misspelled word
+  * Type in misspelled word, right click on incorrect word, pick correct word from list
+  * Toggle first letter to get words only starting with the same first word
+  * Change range to get more similar words to the misspelled word
 
 <img width="695" alt="image" src="https://github.com/user-attachments/assets/1b31afcd-a5c9-429c-a0d1-e98caa5ecf4b" />
