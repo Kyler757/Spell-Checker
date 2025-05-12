@@ -1,7 +1,9 @@
 # DAWG: Directed Acyclic Word Graph 
 
 ## This project uses a DAWG to store and search a large dictionary.
-
+#Authors
+* Emmett Jaakkola, Kyler Nikolai, Thomas Anderson
+  
 ## Features
 
 * Builds a minimal DAWG from a CSV file
