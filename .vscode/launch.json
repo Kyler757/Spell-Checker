@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "src.App",
+      "projectName": "MSCS-271-Final-Project_efca2bac"
+    },
+    {
+      "type": "java",
       "name": "CSVSorter",
       "request": "launch",
       "mainClass": "src.CSVSorter",
