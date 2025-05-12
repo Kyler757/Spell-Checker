@@ -24,3 +24,9 @@ to find the closest correctly spelled word
 * Cleaning a file: To clean a file you need to import a single column dictionary using a CSV file into the Assests file. In the CSVSorter.java file's main function, type in the name of the file imported and type in a name to call the cleaned file. Run.
 
 * Running DAWG: To build the DAWG, open Load.java and change the string for the InputFile (line 12) to be the same as your newly cleaned CSV file. Then from App.java run the file. (On line 27 there is an input word to demonstraite in terminal)
+
+  ### Use on website
+
+  * type in misspelled word, right click on incorrect word, pick correct word from list
+  * toggle first letter to get words only starting with the same first word
+  * change range to get more similar words to the misspelled word
