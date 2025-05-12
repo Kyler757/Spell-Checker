@@ -27,7 +27,7 @@ to find the closest correctly spelled word
 
 * Running DAWG: To build the DAWG, open Load.java and change the string for the InputFile (line 12) to be the same as your newly cleaned CSV file. Then from App.java run the file. (On line 27 there is an input word to demonstraite in terminal)
 
-  ### Use on GitHub: <a href="https://thomasandersonhance.github.io/MSCS-271-Final-Project/website/">Link to Website</a>
+  ### Use on GitHub: <a href="https://kyler757.github.io/Spell-Checker/website/">Link to Website</a>
 
   * Type in misspelled word, right click on incorrect word, pick correct word from list
   * Toggle first letter to get words only starting with the same first word
