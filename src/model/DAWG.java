@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Stack;
 
 class Node {
-
     private Node children[];
     private int lastChildIndex = -1;
     private int size = 0;
@@ -151,12 +150,20 @@ class Node {
 
 public class DAWG {
 
-    private final ArrayList<String> words;
     private final ArrayList<Node> register;
+    private final ArrayList<String> words;
     private int currentWordIndex;
     private String currentWord;
     private String previousWord;
     private Node root;
+
+    public DAWG() {
+        register = new ArrayList<>();
+        words = new ArrayList<>();
+        currentWordIndex = 0;
+        currentWord = "";
+        previousWord = "";
+    }
 
     public DAWG(ArrayList<String> words) {
         this.words = words;
@@ -207,7 +214,8 @@ public class DAWG {
     }
 
     public void computeDAWG() {
-        root = new Node();
+        if (root == null)
+            root = new Node();
 
         while (isNextWord()) {
             getNextWord();
@@ -220,8 +228,14 @@ public class DAWG {
             }
             lastState.addSuffix(currentSuffix);
         }
+    }
 
+    public void complete() {
         replaceOrRegister(root);
+    }
+
+    public void addWords(ArrayList<String> newWords) {
+        words.addAll(newWords);
     }
 
     public void printRegister() {
@@ -340,7 +354,6 @@ public class DAWG {
     public int[][] getStateDiagram() {
         int[][] diagram = new int[Node.getNumberOfNodes()][26];
         Stack<Node> stack = new Stack<>();
-        HashSet<Node> visited = new HashSet<>();
 
         // Initialize diagram
         for (int i = 0; i < Node.getNumberOfNodes(); i++) {
@@ -358,10 +371,9 @@ public class DAWG {
 
             for (int i = 0; i < 26; i++) {
                 Node child = children[i];
-                if (child == null || visited.contains(child)) continue;
+                if (child == null) continue;
                 diagram[id][i] = child.getId();
                 stack.push(child);
-                // visited.add(child);
             }
         }
 
@@ -392,6 +404,51 @@ public class DAWG {
             }
         }
 
+        return finalStates;
+    }
+
+    public static String saveStateDiagram(int[][] diagram) {
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < diagram.length; i++) {
+            out.append(diagram[i][0]);
+            for (int j = 1; j < diagram[i].length; j++) {
+                out.append(" ").append(diagram[i][j]);
+            }
+            out.append("\n");
+        }
+        out.setLength(out.length() - 1);
+        return out.toString();
+    }
+
+    public static String saveFinalStates(BitSet finalStates) {
+        StringBuilder out = new StringBuilder();
+
+        out.append(finalStates.get(0) ? "1" : "0");
+        for (int i = 1; i < finalStates.length(); i++) {
+            out.append(finalStates.get(i) ? " 1" : " 0");
+        }
+
+        return out.toString();
+    }
+
+    public static int[][] loadStateDiagram(String filename) {
+        String[] lines = filename.split("\n");
+        int[][] diagram = new int[lines.length][26];
+        for (int i = 0; i < lines.length; i++) {
+            String[] numbers = lines[i].split(" ");
+            for (int j = 0; j < numbers.length; j++) {
+                diagram[i][j] = Integer.parseInt(numbers[j]);
+            }
+        }
+        return diagram;
+    }
+
+    public static BitSet loadFinalStates(String filename) {
+        String[] numbers = filename.split(" ");
+        BitSet finalStates = new BitSet(numbers.length);
+        for (int i = 0; i < numbers.length; i++) {
+            finalStates.set(i, Integer.parseInt(numbers[i]) == 1);
+        }
         return finalStates;
     }
 }

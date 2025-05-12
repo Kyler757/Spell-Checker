@@ -40,8 +40,8 @@ public class FindWords {
     /**
      * Gets all words of a given edit distance
      * 
-     * @param dist The edit distance
      * @param word The word to start from
+     * @param range Include words within the shortest edit distance plus the range
      * @return A list of words within the edit distance
      */
     public ArrayList<String> getWords(String word, int range, boolean firstLetter) {
