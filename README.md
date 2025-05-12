@@ -30,3 +30,5 @@ to find the closest correctly spelled word
   * type in misspelled word, right click on incorrect word, pick correct word from list
   * toggle first letter to get words only starting with the same first word
   * change range to get more similar words to the misspelled word
+
+<img width="695" alt="image" src="https://github.com/user-attachments/assets/1b31afcd-a5c9-429c-a0d1-e98caa5ecf4b" />
