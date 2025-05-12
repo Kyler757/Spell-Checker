@@ -7,6 +7,8 @@
 * Builds a minimal DAWG from a CSV file
 * WebAssembly client to take user input, indicates any incorrectly spelt words, 
 gives suggestions for the closest words based on Levenshtein distance
+* Range gives the distance away from the input word
+* First Letter returns a list of all similar words starting with the same first letter
 
 ## File Explanation
 * DAWG.java builds the Directly Acyclic Worded Graph
