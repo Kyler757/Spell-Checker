@@ -1,10 +1,6 @@
 package src;
 import java.util.ArrayList;
 import java.util.BitSet;
-import src.model.DAWG;
-import src.model.FindWords;
-import src.model.Load;
-import src.model.Print;
 
 public class App {
     public static void main(String[] args) throws Exception {

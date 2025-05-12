@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.5/lib/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/addons/p5.sound.min.js"></script>
+    <script src="js/classes.wasm-runtime.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/dropdown.css">
+    <link rel="stylesheet" type="text/css" href="css/switches.css">
+    <meta charset="utf-8" />
+    <title>Spellchecker</title>
+
+  </head>
+  <body>
+    <div id="answer" style="display: none;"></div>
+    <div id="toolbar">
+      <a>Spellchecker</a>
+      <a>Range<input type="range" min="0" max="5" step="1" value="1"
+                         id="lev-dist" oninput="editDist=parseFloat(this.value)" numeric></a>
+      <a>First Letter<label class="switch">
+        <input type="checkbox" onchange="firstLetterOnly = this.checked">
+        <span class="slider round"></span>
+      </label></a>
+    </div>
+    <div id="stack">
+      <div id="read"></div>
+      <textarea id="write" contenteditable="true" spellcheck="false"></textarea>
+    </div>
+    <div class="dropdown">
+        <div class="dropdown-content"></div>
+    </div>
+    <script src="js/dropdown.js"></script>
+    <script src="js/fancy-sliders.js"></script>
+    <script src="js/wasm.js"></script>
+    <script src="js/highlighter.js"></script>
+    <script src="js/sketch.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

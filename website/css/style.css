@@ -1,0 +1,101 @@
+html, body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: red;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+#toolbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 0;
+  padding: 10px;
+  background: #4A81E0;
+  color: white;
+}
+
+#toolbar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Helvetica;
+  font-size: 24px;
+}
+
+#toolbar input {
+  width: 60px;
+}
+
+#stack {
+  position: relative;
+  flex: 1;
+}
+
+#write, #read {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 5px;
+  color: transparent;
+  background: transparent;
+  caret-color: black;
+
+  white-space: pre; /* prevent wrapping */
+  overflow-x: auto; /* allow horizontal scroll */
+  overflow-y: auto; /* optional: vertical scroll */
+  
+  font-size: 20px;
+  font-family: Helvetica;
+  box-sizing: border-box;
+  resize: none;
+  border: none;
+/*   text-decoration: none; */
+}
+
+#read {
+  background: white;
+  color: black;
+  pointer-events: none; /* Optional: make read-only and unclickable */
+  user-select: none;
+}
+
+.wrong {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: red;
+  text-decoration-skip-ink: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
